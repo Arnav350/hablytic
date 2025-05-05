@@ -7,18 +7,7 @@ import "./App.css";
 function App() {
   return (
     <Router>
-      <div className="App">
-        <nav>
-          <ul>
-            <li>
-              <Link to="/tasks">Tasks</Link>
-            </li>
-            <li>
-              <Link to="/habits">Habits</Link>
-            </li>
-          </ul>
-        </nav>
-
+      <div className="App dark-theme">
         <Routes>
           <Route path="/tasks" element={<Tasks />} />
           <Route path="/habits" element={<Habits />} />

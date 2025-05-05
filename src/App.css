@@ -9,6 +9,15 @@
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+
+  /* Dark theme variables */
+  --dark-background: #000000;
+  --dark-card-background: #1c1c1e;
+  --dark-border-color: #2c2c2e;
+  --dark-text-primary: #ffffff;
+  --dark-text-secondary: #ebebf5;
+  --dark-primary-color: #5d5ce6;
+  --dark-accent-color: #5e5ce6;
 }
 
 body {
@@ -18,6 +27,8 @@ body {
   line-height: 1.5;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
 }
 
 .App {
@@ -29,12 +40,6 @@ body {
 .App-logo {
   height: 40vmin;
   pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
 }
 
 .App-header {
@@ -52,18 +57,9 @@ body {
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 nav {
   background-color: var(--card-background);
-  padding: 1rem 2rem;
+  padding: 0.75rem 1rem;
   box-shadow: var(--shadow);
   position: sticky;
   top: 0;
@@ -75,20 +71,20 @@ nav ul {
   padding: 0;
   margin: 0;
   display: flex;
-  justify-content: center;
-  gap: 2rem;
-  max-width: 1200px;
+  justify-content: space-around;
+  max-width: 100%;
   margin: 0 auto;
 }
 
 nav a {
   color: var(--text-primary);
   text-decoration: none;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 500;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
   border-radius: 0.375rem;
   transition: all 0.2s;
+  display: block;
 }
 
 nav a:hover {
@@ -98,41 +94,41 @@ nav a:hover {
 
 .tasks-container,
 .habits-container {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 0 1.5rem;
+  max-width: 100%;
+  margin: 1rem auto;
+  padding: 0 1rem;
   width: 100%;
   box-sizing: border-box;
 }
 
 h1 {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   text-align: center;
 }
 
 h2 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 form {
   background-color: var(--card-background);
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: 0.5rem;
   box-shadow: var(--shadow);
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 input[type="text"] {
   flex: 1;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem;
   font-size: 1rem;
   border: 1px solid var(--border-color);
   border-radius: 0.375rem;
@@ -146,7 +142,7 @@ input[type="text"]:focus {
 }
 
 button {
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 1rem;
   font-size: 1rem;
   font-weight: 500;
   background-color: var(--primary-color);
@@ -155,21 +151,21 @@ button {
   border-radius: 0.375rem;
   cursor: pointer;
   transition: all 0.2s;
+  min-height: 44px;
 }
 
 button:hover {
   background-color: var(--primary-hover);
-  transform: translateY(-1px);
 }
 
 .habits-list {
-  margin: 2rem 0;
+  margin: 1.5rem 0;
 }
 
 .habit-item {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
   padding: 1rem;
   background-color: #f5f5f5;
   margin-bottom: 0.5rem;
@@ -185,22 +181,23 @@ button:hover {
 }
 
 .habits-graph {
-  margin-top: 2rem;
+  margin-top: 1.5rem;
   padding: 1rem;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
 }
 
 .tasks-list {
-  margin: 2rem 0;
+  margin: 1.5rem 0;
 }
 
 .task-item {
   background-color: var(--card-background);
   border-radius: 0.5rem;
-  padding: 1.25rem;
-  margin-bottom: 1rem;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
   box-shadow: var(--shadow-sm);
   display: flex;
   justify-content: space-between;
@@ -210,8 +207,12 @@ button:hover {
 }
 
 .task-item:hover {
-  transform: translateX(5px);
+  transform: none;
   box-shadow: var(--shadow);
+}
+
+.task-item:active {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .task-main {
@@ -223,20 +224,20 @@ button:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .task-text {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--text-primary);
 }
 
 .due-date {
   color: var(--text-secondary);
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   background-color: var(--background);
-  padding: 0.25rem 0.75rem;
+  padding: 0.25rem 0.5rem;
   border-radius: 1rem;
 }
 
@@ -247,10 +248,10 @@ button:hover {
   color: var(--text-secondary);
   cursor: pointer;
   padding: 0.5rem;
-  margin-left: 1rem;
+  margin-left: 0.5rem;
   transition: all 0.2s;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -267,23 +268,23 @@ button:hover {
 }
 
 .subtasks-preview {
-  margin-top: 0.75rem;
-  padding-left: 1rem;
+  margin-top: 0.5rem;
+  padding-left: 0.75rem;
   border-left: 2px solid var(--border-color);
 }
 
 .subtask-preview-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
   padding: 0.5rem 0;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--text-secondary);
 }
 
 .subtask-preview-item input[type="checkbox"] {
-  width: 1rem;
-  height: 1rem;
+  width: 20px;
+  height: 20px;
   margin: 0;
   cursor: pointer;
 }
@@ -309,12 +310,14 @@ button:hover {
   border-radius: 4px;
   color: white;
   cursor: pointer;
+  min-height: 44px;
 }
 
 .edit-form {
   display: flex;
   gap: 0.5rem;
   width: 100%;
+  flex-direction: column;
 }
 
 .edit-form input {
@@ -344,6 +347,7 @@ button:hover {
   display: flex;
   gap: 0.5rem;
   margin-bottom: 1rem;
+  flex-direction: column;
 }
 
 .subtask-form input {
@@ -368,6 +372,8 @@ button:hover {
 
 .subtask-item input[type="checkbox"] {
   margin: 0;
+  width: 20px;
+  height: 20px;
 }
 
 .subtask-item span {
@@ -382,7 +388,7 @@ button:hover {
 .task-dates {
   display: flex;
   gap: 1rem;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   color: #666;
 }
 
@@ -395,6 +401,7 @@ button:hover {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 0.875rem;
+  min-height: 44px;
 }
 
 button.completed {
@@ -407,10 +414,10 @@ button.completed:hover {
 
 .tasks-section {
   background-color: var(--card-background);
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: 0.5rem;
   box-shadow: var(--shadow);
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .tasks-section h2 {
@@ -439,8 +446,8 @@ button.completed:hover {
 .modal-content {
   background-color: var(--card-background);
   border-radius: 0.75rem;
-  padding: 2rem;
-  width: 90%;
+  padding: 1.5rem;
+  width: 95%;
   max-width: 600px;
   max-height: 90vh;
   overflow-y: auto;
@@ -452,8 +459,8 @@ button.completed:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -470,8 +477,8 @@ button.completed:hover {
   padding: 0.5rem;
   color: var(--text-secondary);
   transition: all 0.2s;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -484,11 +491,11 @@ button.completed:hover {
 }
 
 .modal-body {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .form-group label {
@@ -501,11 +508,13 @@ button.completed:hover {
 .form-group input,
 .form-group select {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem;
   border: 1px solid var(--border-color);
   border-radius: 0.375rem;
   font-size: 1rem;
   transition: all 0.2s;
+  min-height: 44px;
+  box-sizing: border-box;
 }
 
 .form-group input:focus,
@@ -517,14 +526,15 @@ button.completed:hover {
 
 .modal-footer {
   display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  padding-top: 1.5rem;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-top: 1rem;
   border-top: 1px solid var(--border-color);
 }
 
 .modal-footer button {
-  min-width: 100px;
+  flex: 1;
+  min-width: 0;
 }
 
 .modal-footer button:last-child {
@@ -534,4 +544,252 @@ button.completed:hover {
 
 .modal-footer button:last-child:hover {
   background-color: var(--border-color);
+}
+
+@media screen and (max-width: 428px) {
+  h1 {
+    font-size: 1.35rem;
+  }
+
+  h2 {
+    font-size: 1.15rem;
+  }
+
+  .task-item {
+    padding: 0.75rem;
+  }
+
+  form {
+    padding: 0.75rem;
+  }
+
+  .modal-content {
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+    padding: 1rem;
+  }
+
+  .modal-content {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  nav {
+    padding-top: max(0.75rem, env(safe-area-inset-top));
+  }
+}
+
+@media screen and (max-width: 428px) and (orientation: landscape) {
+  .modal-content {
+    max-height: 80vh;
+  }
+
+  .tasks-container,
+  .habits-container {
+    margin-top: 0.5rem;
+  }
+}
+
+@supports (-webkit-touch-callout: none) {
+  .App {
+    min-height: -webkit-fill-available;
+  }
+
+  .modal-overlay {
+    height: -webkit-fill-available;
+  }
+}
+
+/* Dark Theme Styles */
+.dark-theme {
+  background-color: var(--dark-background);
+  color: var(--dark-text-primary);
+}
+
+.dark-theme .tasks-container {
+  background-color: var(--dark-background);
+  padding: 0;
+  max-width: 100%;
+  margin: 0;
+}
+
+.dark-theme h1 {
+  color: var(--dark-text-primary);
+  font-size: 32px;
+  margin: 10px 0;
+}
+
+.header-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  color: var(--dark-text-primary);
+}
+
+.back-button,
+.menu-button {
+  background: none;
+  border: none;
+  color: var(--dark-accent-color);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 8px;
+  min-height: auto;
+}
+
+.back-button:hover,
+.menu-button:hover {
+  background: none;
+  opacity: 0.8;
+}
+
+.dark-theme .task-item {
+  background-color: var(--dark-card-background);
+  border: none;
+  border-radius: 8px;
+  margin: 10px 15px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  box-shadow: none;
+}
+
+.circle-checkbox {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #9a9a9a;
+  background: none;
+  margin-right: 12px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: auto;
+}
+
+.checkbox-inner {
+  display: none;
+}
+
+.circle-checkbox.completed {
+  background-color: var(--dark-accent-color);
+  border-color: var(--dark-accent-color);
+}
+
+.checkbox-inner.completed {
+  display: block;
+  color: white;
+  font-weight: bold;
+}
+
+.dark-theme .task-main {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.dark-theme .task-text {
+  color: var(--dark-text-primary);
+  font-size: 17px;
+}
+
+.task-item.completed .task-text {
+  text-decoration: line-through;
+  color: #8e8e93;
+}
+
+.favorite-button {
+  background: none;
+  border: none;
+  color: #8e8e93;
+  font-size: 24px;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  min-height: auto;
+}
+
+.favorite-button:hover {
+  background: none;
+}
+
+.favorite-button.active {
+  color: #ffcc00;
+}
+
+.add-task-form {
+  display: flex;
+  align-items: center;
+  margin: 15px;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.add-button {
+  background-color: var(--dark-accent-color);
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  font-size: 24px;
+  line-height: 24px;
+  padding: 0;
+  min-height: auto;
+}
+
+.dark-theme input[type="text"] {
+  background-color: var(--dark-card-background);
+  border: none;
+  color: var(--dark-text-primary);
+  font-size: 17px;
+  padding: 12px 15px;
+  border-radius: 8px;
+  flex: 1;
+}
+
+.dark-theme input[type="text"]::placeholder {
+  color: #8e8e93;
+}
+
+.completed-section {
+  margin: 20px 15px;
+}
+
+.completed-toggle {
+  background: none;
+  border: none;
+  color: var(--dark-accent-color);
+  display: flex;
+  align-items: center;
+  font-size: 17px;
+  padding: 0;
+  min-height: auto;
+}
+
+.toggle-icon {
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.3s;
+}
+
+.toggle-icon.expanded {
+  transform: rotate(0);
+}
+
+.toggle-icon:not(.expanded) {
+  transform: rotate(-90deg);
+}
+
+.tasks-list.completed {
+  margin-top: 10px;
 }

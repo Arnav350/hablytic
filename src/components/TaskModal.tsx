@@ -13,6 +13,7 @@ interface Task {
   subtasks: SubTask[];
   dueDate: string;
   completed: boolean;
+  favorite: boolean;
 }
 
 interface TaskModalProps {

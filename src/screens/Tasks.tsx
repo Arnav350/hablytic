@@ -14,12 +14,14 @@ interface Task {
   subtasks: SubTask[];
   dueDate: string;
   completed: boolean;
+  favorite: boolean;
 }
 
 const Tasks: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTask, setNewTask] = useState("");
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [showCompleted, setShowCompleted] = useState(true);
 
   const handleAddTask = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,6 +35,7 @@ const Tasks: React.FC = () => {
           subtasks: [],
           dueDate: new Date().toISOString().split("T")[0],
           completed: false,
+          favorite: false,
         },
       ]);
       setNewTask("");
@@ -41,6 +44,11 @@ const Tasks: React.FC = () => {
 
   const handleCompleteTask = (taskId: number) => {
     setTasks(tasks.map((task) => (task.id === taskId ? { ...task, completed: !task.completed } : task)));
+  };
+
+  const handleToggleFavorite = (taskId: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setTasks(tasks.map((task) => (task.id === taskId ? { ...task, favorite: !task.favorite } : task)));
   };
 
   const handleSaveTask = (updatedTask: Task) => {
@@ -75,118 +83,90 @@ const Tasks: React.FC = () => {
   const completedTasks = tasks.filter((task) => task.completed);
 
   return (
-    <div className="tasks-container">
-      <h1>Tasks</h1>
-      <form onSubmit={handleAddTask}>
-        <input type="text" value={newTask} onChange={(e) => setNewTask(e.target.value)} placeholder="Add a new task" />
-        <button type="submit">Add Task</button>
-      </form>
+    <div className="tasks-container dark-theme">
+      <div className="header-nav">
+        <button className="back-button">
+          <span>&#8592;</span> Lists
+        </button>
+        <h1>Tasks</h1>
+        <button className="menu-button">&#8942;</button>
+      </div>
 
-      <div className="tasks-section">
-        <h2>Active Tasks</h2>
-        <div className="tasks-list">
-          {activeTasks.map((task) => (
-            <div
-              key={task.id}
-              className="task-item"
-              style={{
-                backgroundColor: `${getPriorityColor(task.priority)}15`,
-                borderLeft: `4px solid ${getPriorityColor(task.priority)}`,
+      <div className="tasks-list">
+        {activeTasks.map((task) => (
+          <div key={task.id} className="task-item">
+            <button
+              className="circle-checkbox"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleCompleteTask(task.id);
               }}
             >
-              <div className="task-main" onClick={() => setSelectedTask(task)}>
-                <div className="task-header">
-                  <span className="task-text">{task.text}</span>
-                  {task.dueDate && <span className="due-date">Due: {formatDate(task.dueDate)}</span>}
-                </div>
-                {task.subtasks.length > 0 && (
-                  <div className="subtasks-preview">
-                    {task.subtasks.map((subtask) => (
-                      <div key={subtask.id} className="subtask-preview-item">
-                        <input
-                          type="checkbox"
-                          checked={subtask.completed}
-                          onChange={(e) => {
-                            e.stopPropagation();
-                            setTasks(
-                              tasks.map((t) =>
-                                t.id === task.id
-                                  ? {
-                                      ...t,
-                                      subtasks: t.subtasks.map((st) =>
-                                        st.id === subtask.id ? { ...st, completed: !st.completed } : st
-                                      ),
-                                    }
-                                  : t
-                              )
-                            );
-                          }}
-                        />
-                        <span style={{ textDecoration: subtask.completed ? "line-through" : "none" }}>
-                          {subtask.text}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <button
-                className="complete-button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleCompleteTask(task.id);
-                }}
-              >
-                ✓
-              </button>
+              <span className="checkbox-inner"></span>
+            </button>
+            <div className="task-main" onClick={() => setSelectedTask(task)}>
+              <span className="task-text">{task.text}</span>
             </div>
-          ))}
-        </div>
+            <button
+              className={`favorite-button ${task.favorite ? "active" : ""}`}
+              onClick={(e) => handleToggleFavorite(task.id, e)}
+            >
+              &#9733;
+            </button>
+          </div>
+        ))}
+      </div>
+
+      <div className="add-task-form">
+        <button className="add-button" onClick={handleAddTask}>
+          +
+        </button>
+        <input
+          type="text"
+          value={newTask}
+          onChange={(e) => setNewTask(e.target.value)}
+          placeholder="Add a Task"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleAddTask(e);
+            }
+          }}
+        />
       </div>
 
       {completedTasks.length > 0 && (
-        <div className="tasks-section completed">
-          <h2>Completed Tasks</h2>
-          <div className="tasks-list">
-            {completedTasks.map((task) => (
-              <div
-                key={task.id}
-                className="task-item completed"
-                style={{
-                  backgroundColor: `${getPriorityColor(task.priority)}15`,
-                  borderLeft: `4px solid ${getPriorityColor(task.priority)}`,
-                }}
-              >
-                <div className="task-main" onClick={() => setSelectedTask(task)}>
-                  <div className="task-header">
+        <div className="completed-section">
+          <button className="completed-toggle" onClick={() => setShowCompleted(!showCompleted)}>
+            <span className={`toggle-icon ${showCompleted ? "expanded" : ""}`}>&#9660;</span>
+            Completed
+          </button>
+
+          {showCompleted && (
+            <div className="tasks-list completed">
+              {completedTasks.map((task) => (
+                <div key={task.id} className="task-item completed">
+                  <button
+                    className="circle-checkbox completed"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCompleteTask(task.id);
+                    }}
+                  >
+                    <span className="checkbox-inner completed">✓</span>
+                  </button>
+                  <div className="task-main" onClick={() => setSelectedTask(task)}>
                     <span className="task-text">{task.text}</span>
-                    {task.dueDate && <span className="due-date">Due: {formatDate(task.dueDate)}</span>}
                   </div>
-                  {task.subtasks.length > 0 && (
-                    <div className="subtasks-preview">
-                      {task.subtasks.map((subtask) => (
-                        <div key={subtask.id} className="subtask-preview-item">
-                          <input type="checkbox" checked={subtask.completed} disabled />
-                          <span style={{ textDecoration: subtask.completed ? "line-through" : "none" }}>
-                            {subtask.text}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                  <button
+                    className={`favorite-button ${task.favorite ? "active" : ""}`}
+                    onClick={(e) => handleToggleFavorite(task.id, e)}
+                  >
+                    &#9733;
+                  </button>
                 </div>
-                <button
-                  className="complete-button completed"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleCompleteTask(task.id);
-                  }}
-                >
-                  ✓
-                </button>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
